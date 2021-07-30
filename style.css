@@ -1,5 +1,17 @@
+* {
+    margin: 0;
+}
+
+body {
+    display: grid;
+    position: relative;
+    height: 100vh;
+    place-content: center;
+    background: #274754;
+    overflow: hidden;
+}
+
 canvas {
     height: 90vh;
     aspect-ratio: 16/9;;
-    border: 1px solid black;
 }
