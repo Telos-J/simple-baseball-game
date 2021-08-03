@@ -1,15 +1,15 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 
-canvas.width = innerWidth * devicePixelRatio
-canvas.height = innerHeight * devicePixelRatio
-
+canvas.width = 1600
+canvas.height = 900
 class Ball {
-    contructor() {
+    constructor() {
         this.x = canvas.width * Math.random()
         this.y = canvas.height * Math.random()
         this.vx = 10
         this.vy = 10
+        this.size = 100
     }
 }
 
@@ -24,11 +24,11 @@ function update() {
     } else if (ball.y < 0) {
         ball.y = 0
         ball.vy *= -1
-    } else if (ball.x > canvas.width - 50) {
-        ball.x = canvas.width - 50
+    } else if (ball.x > canvas.width - ball.size) {
+        ball.x = canvas.width - ball.size
         ball.vx *= -1
-    } else if (ball.y > canvas.height - 50) {
-        ball.y = canvas.height - 50
+    } else if (ball.y > canvas.height - ball.size) {
+        ball.y = canvas.height - ball.size
         ball.vy *= -1
     }
 }
@@ -39,7 +39,7 @@ image.src = './baseball.png'
 function render() {
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
-   context.drawImage(image, ball.x, ball.y, 50, 50)       
+   context.drawImage(image, ball.x, ball.y, ball.size , ball.size)       
 }
 
 function loop() {
