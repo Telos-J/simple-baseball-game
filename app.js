@@ -4,33 +4,47 @@ const context = canvas.getContext('2d')
 canvas.width = innerWidth * devicePixelRatio
 canvas.height = innerHeight * devicePixelRatio
 
-let x = canvas.width * Math.random()
-let y = canvas.height * Math.random()
-let vx = 10
-let vy = 10
+class Ball {
+    contructor() {
+        this.x = canvas.width * Math.random()
+        this.y = canvas.height * Math.random()
+        this.vx = 10
+        this.vy = 10
+    }
+}
 
-function loop() {
+const ball = new Ball()
+
+function update() {
+    ball.x += ball.vx 
+    ball.y += ball.vy 
+    if (ball.x < 0) {
+        ball.x = 0
+        ball.vx *= -1
+    } else if (ball.y < 0) {
+        ball.y = 0
+        ball.vy *= -1
+    } else if (ball.x > canvas.width - 50) {
+        ball.x = canvas.width - 50
+        ball.vx *= -1
+    } else if (ball.y > canvas.height - 50) {
+        ball.y = canvas.height - 50
+        ball.vy *= -1
+    }
+}
+
+const image = new Image()
+image.src = './baseball.png'
+
+function render() {
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
-    x += vx * 10*Math.random()
-    y += vy * 10*Math.random()
-    if (x < 0) {
-        x = 0
-        vx *= -1
-    } else if (y < 0) {
-        y = 0
-        vy *= -1
-    } else if (x > canvas.width) {
-        x = canvas.width
-        vx *= -1
-    } else if (y > canvas.height) {
-        y = canvas.height
-        vy *= -1
-    }
-    context.strokeStyle = 'black'
-    context.beginPath()
-    context.arc(x, y, 25, 0, Math.PI * 2)
-    context.stroke()        
+   context.drawImage(image, ball.x, ball.y, 50, 50)       
+}
+
+function loop() {
+    update()
+    render()
     requestAnimationFrame(loop) // recursive function
 }
 
