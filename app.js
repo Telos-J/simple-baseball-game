@@ -11,9 +11,22 @@ class Ball {
         this.vx = 0
         this.vy = 0
         this.status = true
+        this.image = new Image()
+        this.image.src = './baseball.png'
     }
 }
 
+class Bat {
+    constructor() {
+        this.size = 500
+        this.x = canvas.width - this.size
+        this.y = canvas.height / 2
+        this.image = new Image()
+        this.image.src = './baseballbat.png'
+    }
+}
+
+const bat = new Bat()
 const ball = new Ball()
 
 addEventListener('keydown', e => {
@@ -46,16 +59,14 @@ function update() {
     }
 }
 
-const image = new Image()
-image.src = './baseball.png'
-
 function render() {
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)    
     if (ball.status === true) {
-        context.drawImage(image, ball.x, ball.y, ball.size , ball.size)
+        context.drawImage(ball.image, ball.x, ball.y, ball.size , ball.size)
     } 
-}
+    context.drawImage(bat.image, bat.x, bat.y, bat.size, bat.size / 2.4)
+} 
 
 function loop() {
     update()
