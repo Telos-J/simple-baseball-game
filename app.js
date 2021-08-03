@@ -23,6 +23,7 @@ class Bat {
         this.y = canvas.height / 2
         this.image = new Image()
         this.image.src = './baseballbat.png'
+        this.rotation = 0
     }
 }
 
@@ -57,6 +58,8 @@ function update() {
         ball.y = canvas.height - ball.size
         ball.vy *= -1
     }
+
+    bat.rotation += Math.PI / 25
 }
 
 function render() {
@@ -65,7 +68,11 @@ function render() {
     if (ball.status === true) {
         context.drawImage(ball.image, ball.x, ball.y, ball.size , ball.size)
     } 
-    context.drawImage(bat.image, bat.x, bat.y, bat.size, bat.size / 2.4)
+    context.save();
+    context.translate(bat.x/2,bat.y/2);
+    context.rotate(bat.rotation)
+    context.drawImage(bat.image, 0, -bat.size /2.4, bat.size, bat.size / 2.4)
+    context.restore()
 } 
 
 function loop() {
