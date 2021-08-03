@@ -5,15 +5,28 @@ canvas.width = 1600
 canvas.height = 900
 class Ball {
     constructor() {
-        this.x = canvas.width * Math.random()
-        this.y = canvas.height * Math.random()
-        this.vx = 10
-        this.vy = 10
         this.size = 100
+        this.x = canvas.width / 2 - this.size / 2
+        this.y = canvas.height / 2 - this.size / 2
+        this.vx = 0
+        this.vy = 0
+        this.status = true
     }
 }
 
 const ball = new Ball()
+
+addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+        ball.vx = 25
+    } else if (e.code === 'KeyD') {
+        if (ball.status === true) {
+            ball.status = false
+        } else {
+            ball.status = true
+        }
+    }
+})
 
 function update() {
     ball.x += ball.vx 
@@ -38,8 +51,10 @@ image.src = './baseball.png'
 
 function render() {
     context.fillStyle = 'white'
-    context.fillRect(0, 0, canvas.width, canvas.height)
-   context.drawImage(image, ball.x, ball.y, ball.size , ball.size)       
+    context.fillRect(0, 0, canvas.width, canvas.height)    
+    if (ball.status === true) {
+        context.drawImage(image, ball.x, ball.y, ball.size , ball.size)
+    } 
 }
 
 function loop() {
