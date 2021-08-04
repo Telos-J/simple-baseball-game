@@ -3,11 +3,12 @@ const context = canvas.getContext('2d')
 
 canvas.width = 1600
 canvas.height = 900
+
 class Ball {
     constructor() {
         this.size = 20
         this.x = canvas.width / 2 - this.size / 2
-        this.y = canvas.height / 2 - this.size / 2 - 70
+        this.y = 366
         this.vx = 0
         this.vy = 0
         this.status = true
@@ -20,7 +21,7 @@ class Bat {
     constructor() {
         this.size = 70
         this.x = 750
-        this.y = canvas.height - 100
+        this.y = 800
         this.image = new Image()
         this.image.src = './baseballbat.png'
         this.rotation = 0
@@ -53,6 +54,15 @@ addEventListener('keydown', e => {
     }
 })
 
+addEventListener('click', e => {
+    const box = canvas.getBoundingClientRect()
+    if (e.clientX > box.left && e.clientX < box.right && e.clientY > box.top && e.clientY < box.bottom) {
+        const x = (e.clientX - box.x) / canvas.clientWidth * canvas.width
+        const y = (e.clientY - box.y) / canvas.clientHeight * canvas.height
+        console.log(x.toFixed(2), y.toFixed(2))
+    }
+})
+
 function update() {
     ball.x += ball.vx 
     ball.y += ball.vy 
@@ -76,7 +86,7 @@ function update() {
 function render() {
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
-    context.drawImage(stadium.image, stadium.x, stadium.y, stadium.size, stadium.size/1.14)    
+    context.drawImage(stadium.image, stadium.x, stadium.y, stadium.size, stadium.size / 1.14)    
     if (ball.status === true) {
         context.drawImage(ball.image, ball.x, ball.y, ball.size , ball.size)
     } 
