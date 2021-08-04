@@ -5,9 +5,9 @@ canvas.width = 1600
 canvas.height = 900
 class Ball {
     constructor() {
-        this.size = 100
+        this.size = 20
         this.x = canvas.width / 2 - this.size / 2
-        this.y = canvas.height / 2 - this.size / 2
+        this.y = canvas.height / 2 - this.size / 2 - 70
         this.vx = 0
         this.vy = 0
         this.status = true
@@ -18,21 +18,32 @@ class Ball {
 
 class Bat {
     constructor() {
-        this.size = 500
-        this.x = canvas.width - this.size
-        this.y = canvas.height / 2
+        this.size = 70
+        this.x = 750
+        this.y = canvas.height - 100
         this.image = new Image()
         this.image.src = './baseballbat.png'
         this.rotation = 0
     }
 }
 
+class Stadium {
+    constructor() {
+        this.size = 2300
+        this.x = canvas.width / 2 - this.size / 2
+        this.y = canvas.height / 2 - this.size / 2  - 180
+        this.image = new Image()
+        this.image.src = './stadium.png'
+    }
+}
+
 const bat = new Bat()
 const ball = new Ball()
+const stadium = new Stadium()
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
-        ball.vx = 25
+        ball.vy = 25
     } else if (e.code === 'KeyD') {
         if (ball.status === true) {
             ball.status = false
@@ -59,20 +70,22 @@ function update() {
         ball.vy *= -1
     }
 
-    bat.rotation += Math.PI / 25
+    bat.rotation -= Math.PI / 25
 }
 
 function render() {
     context.fillStyle = 'white'
-    context.fillRect(0, 0, canvas.width, canvas.height)    
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(stadium.image, stadium.x, stadium.y, stadium.size, stadium.size/1.14)    
     if (ball.status === true) {
         context.drawImage(ball.image, ball.x, ball.y, ball.size , ball.size)
     } 
     context.save();
-    context.translate(bat.x/2,bat.y/2);
+    context.translate(bat.x,bat.y);
     context.rotate(bat.rotation)
     context.drawImage(bat.image, 0, -bat.size /2.4, bat.size, bat.size / 2.4)
     context.restore()
+
 } 
 
 function loop() {
