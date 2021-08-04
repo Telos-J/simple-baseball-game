@@ -4,6 +4,9 @@ const context = canvas.getContext('2d')
 canvas.width = 1600
 canvas.height = 900
 
+//true means you are pitching false is batting
+let inningSituation = false
+
 class Ball {
     constructor() {
         this.size = 20
@@ -62,6 +65,12 @@ addEventListener('click', e => {
     }
 })
 
+setInterval(() => {
+    if (inningSituation === false) {
+        ball.vy = 20*Math.random()+5
+    }
+},7*1000)
+
 function update() {
     ball.x += ball.vx 
     ball.y += ball.vy 
@@ -113,5 +122,4 @@ function loop() {
 
 loop()
 
-//true means you are pitching false is batting
-let inningSituation = false
+
