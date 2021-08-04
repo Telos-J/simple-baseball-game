@@ -24,7 +24,8 @@ class Bat {
         this.y = 800
         this.image = new Image()
         this.image.src = './baseballbat.png'
-        this.rotation = 0
+        this.rotation = Math.PI
+        this.rotationSpeed = 0
     }
 }
 
@@ -44,12 +45,10 @@ const stadium = new Stadium()
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
-        ball.vy = 25
-    } else if (e.code === 'KeyD') {
-        if (ball.status === true) {
-            ball.status = false
+        if (inningSituation === true) {
+            ball.vy = 15
         } else {
-            ball.status = true
+            bat.rotationSpeed = Math.PI / 10
         }
     }
 })
@@ -78,9 +77,17 @@ function update() {
     } else if (ball.y > canvas.height - ball.size) {
         ball.y = canvas.height - ball.size
         ball.vy *= -1
+    } else if (ball.y > 851) {
+        ball.x = canvas.width / 2 - ball.size / 2
+        ball.y = 366
+        ball.vy = 0
     }
 
-    bat.rotation -= Math.PI / 25
+    bat.rotation -= bat.rotationSpeed
+    if (bat.rotation < Math.PI - Math.PI * 2) {
+        bat.rotation = Math.PI
+        bat.rotationSpeed = 0
+    }
 }
 
 function render() {
@@ -105,3 +112,6 @@ function loop() {
 }
 
 loop()
+
+//true means you are pitching false is batting
+let inningSituation = false
