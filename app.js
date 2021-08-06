@@ -41,13 +41,26 @@ class Ball {
             this.x = canvas.width / 2 - this.size / 2
             this.y = 366
             this.vy = 0
+        } else if (this.y < -1200) {
+            setTimeout(() => {
+                this.x = canvas.width / 2 - this.size / 2
+                this.y = 366
+                camera.y = 0
+            },2*1000)
+            this.vy = 0
+            camera.vy = 0
+            context.drawImage(homeRunSign, 0, 0, 705, 564)
+
         }
     }
 
     draw () {
-            context.drawImage(this.image, this.x, this.y, this.size , this.size)
+            context.drawImage(this.image, this.x - camera.x, this.y - camera.y, this.size , this.size)
     }
 }
+
+const homeRunSign = new Image(); 
+homeRunSign.src = './homerunsign.png'
 
 class Bat {
     constructor() {
@@ -66,22 +79,21 @@ class Bat {
             this.rotation = Math.PI
             this.rotationSpeed = 0
         }
+
+        if (this.rotationSpeed !== 0 && ball.y > 750 && ball.y < 790 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.vy = -30
+            camera.vy = ball.vy
+        }
     }
 
     draw () {
         context.save();
-        context.translate(this.x,this.y);
+        context.translate(this.x - camera.x,this.y - camera.y);
         context.rotate(this.rotation)
         context.drawImage(this.image, 0, -this.size /2.4, this.size, this.size / 2.4)
         context.restore()
     }
 
-    hitNoHit () {
-        console.log(ball.y > 765 && ball.y < 776, this.rotation > Math.PI - Math.PI / 1 && this.rotation < Math.PI - Math.PI / 1.4)
-        if (ball.y > 765 && ball.y < 776 && this.rotation > Math.PI - Math.PI / 1.10 && this.rotation < Math.PI - Math.PI / 1.2) {
-            ball.vy = -40
-        }
-    }
 }
 
 class Stadium {
@@ -93,13 +105,28 @@ class Stadium {
         this.image.src = './stadium.png'
     }
     draw () {
-        context.drawImage(this.image, this.x, this.y, this.size, this.size / 1.14)    
+        context.drawImage(this.image, this.x - camera.x, this.y - camera.y, this.size, this.size / 1.14)    
+    }
+}
+
+class Camera {
+    constructor() {
+        this.x = 0
+        this.y = 0
+        this.vy = 0
+        this.vx = 0
+    }
+    move () {
+        if (ball.y < 377) {
+            this.y += this.vy
+        }
     }
 }
 
 const bat = new Bat()
 const ball = new Ball()
 const stadium = new Stadium()
+const camera = new Camera()
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
@@ -108,6 +135,10 @@ addEventListener('keydown', e => {
         } else {
             bat.rotationSpeed = Math.PI /  5
         }
+    } else if (e.code === 'ArrowUp') {
+        camera.y -= 10
+    } else if (e.code === 'ArrowDown') {
+        camera.y += 10
     }
 })
 
@@ -121,16 +152,16 @@ addEventListener('click', e => {
 })
 
 setInterval(() => {
-    if (inningSituation === false) {
+    if (inningSituation === false && ball.vy === 0) {
         ball.vy = 1 //15*Math.random()+5
     }
-},7*1000)
+},3*1000)
 
 function update() {
     ball.move()
     ball.bound()
     bat.swing()
-    bat.hitNoHit()
+    camera.move()
 }
 
 function render() {
