@@ -77,7 +77,8 @@ class Bat {
     }
 
     hitNoHit () {
-        if (765 < ball.y && ball.y < 776 && this.rotation > Math.PI - Math.PI / 1.10 && this.rotation < Math.PI - Math.PI / 1.2) {
+        console.log(ball.y > 765 && ball.y < 776, this.rotation > Math.PI - Math.PI / 1 && this.rotation < Math.PI - Math.PI / 1.4)
+        if (ball.y > 765 && ball.y < 776 && this.rotation > Math.PI - Math.PI / 1.10 && this.rotation < Math.PI - Math.PI / 1.2) {
             ball.vy = -40
         }
     }
