@@ -46,21 +46,22 @@ class Ball {
                 this.x = canvas.width / 2 - this.size / 2
                 this.y = 366
                 camera.y = 0
-            },2*1000)
+                homerun = false
+            }, 2*1000)
             this.vy = 0
             camera.vy = 0
-            context.drawImage(homeRunSign, 0, 0, 705, 564)
-
+            homerun = true
         }
     }
 
     draw () {
-            context.drawImage(this.image, this.x - camera.x, this.y - camera.y, this.size , this.size)
+        context.drawImage(this.image, this.x - camera.x, this.y - camera.y, this.size , this.size)
     }
 }
 
 const homeRunSign = new Image(); 
 homeRunSign.src = './homerunsign.png'
+let homerun = false
 
 class Bat {
     constructor() {
@@ -170,6 +171,7 @@ function render() {
     stadium.draw()
     ball.draw()
     bat.draw()
+    if (homerun) context.drawImage(homeRunSign, 0, 0, 705, 564)
 } 
 
 function loop() {
