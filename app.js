@@ -14,10 +14,39 @@ class Ball {
         this.y = 366
         this.vx = 0
         this.vy = 0
-        this.status = true
         this.image = new Image()
         this.image.src = './baseball.png'
     }
+
+    move () {
+        this.x += this.vx 
+        this.y += this.vy 
+    }
+
+    bound () {
+        if (this.x < 0) {
+            this.x = 0
+            this.vx *= -1
+        } else if (this.y < 0) {
+            this.y = 0
+            this.vy *= -1
+        } else if (this.x > canvas.width - this.size) {
+            this.x = canvas.width - this.size
+            this.vx *= -1
+        } else if (this.y > canvas.height - this.size) {
+            this.y = canvas.height - this.size
+            this.vy *= -1
+        } else if (this.y > 851) {
+            this.x = canvas.width / 2 - this.size / 2
+            this.y = 366
+            this.vy = 0
+        }
+    }
+
+    draw () {
+            context.drawImage(this.image, this.x, this.y, this.size , this.size)
+    }
+
 }
 
 class Bat {
@@ -30,6 +59,22 @@ class Bat {
         this.rotation = Math.PI
         this.rotationSpeed = 0
     }
+
+    swing () {
+        this.rotation -= this.rotationSpeed
+        if (this.rotation < Math.PI - Math.PI * 2) {
+            this.rotation = Math.PI
+            this.rotationSpeed = 0
+        }
+    }
+
+    draw () {
+        context.save();
+        context.translate(this.x,this.y);
+        context.rotate(this.rotation)
+        context.drawImage(this.image, 0, -this.size /2.4, this.size, this.size / 2.4)
+        context.restore()
+    }
 }
 
 class Stadium {
@@ -39,6 +84,9 @@ class Stadium {
         this.y = canvas.height / 2 - this.size / 2  - 180
         this.image = new Image()
         this.image.src = './stadium.png'
+    }
+    draw () {
+        context.drawImage(this.image, this.x, this.y, this.size, this.size / 1.14)    
     }
 }
 
@@ -51,7 +99,7 @@ addEventListener('keydown', e => {
         if (inningSituation === true) {
             ball.vy = 15
         } else {
-            bat.rotationSpeed = Math.PI / 10
+            bat.rotationSpeed = Math.PI /  5
         }
     }
 })
@@ -67,51 +115,22 @@ addEventListener('click', e => {
 
 setInterval(() => {
     if (inningSituation === false) {
-        ball.vy = 20*Math.random()+5
+        ball.vy = 15*Math.random()+5
     }
 },7*1000)
 
 function update() {
-    ball.x += ball.vx 
-    ball.y += ball.vy 
-    if (ball.x < 0) {
-        ball.x = 0
-        ball.vx *= -1
-    } else if (ball.y < 0) {
-        ball.y = 0
-        ball.vy *= -1
-    } else if (ball.x > canvas.width - ball.size) {
-        ball.x = canvas.width - ball.size
-        ball.vx *= -1
-    } else if (ball.y > canvas.height - ball.size) {
-        ball.y = canvas.height - ball.size
-        ball.vy *= -1
-    } else if (ball.y > 851) {
-        ball.x = canvas.width / 2 - ball.size / 2
-        ball.y = 366
-        ball.vy = 0
-    }
-
-    bat.rotation -= bat.rotationSpeed
-    if (bat.rotation < Math.PI - Math.PI * 2) {
-        bat.rotation = Math.PI
-        bat.rotationSpeed = 0
-    }
+    ball.move()
+    ball.bound()
+    bat.swing()
 }
 
 function render() {
     context.fillStyle = 'white'
     context.fillRect(0, 0, canvas.width, canvas.height)
-    context.drawImage(stadium.image, stadium.x, stadium.y, stadium.size, stadium.size / 1.14)    
-    if (ball.status === true) {
-        context.drawImage(ball.image, ball.x, ball.y, ball.size , ball.size)
-    } 
-    context.save();
-    context.translate(bat.x,bat.y);
-    context.rotate(bat.rotation)
-    context.drawImage(bat.image, 0, -bat.size /2.4, bat.size, bat.size / 2.4)
-    context.restore()
-
+    stadium.draw()
+    ball.draw()
+    bat.draw()
 } 
 
 function loop() {
