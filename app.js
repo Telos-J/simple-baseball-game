@@ -5,7 +5,7 @@ canvas.width = 1600
 canvas.height = 900
 
 //true means you are pitching false is batting
-let inningSituation = false
+let inningSituation = false 
 
 class Ball {
     constructor() {
@@ -19,29 +19,24 @@ class Ball {
     }
 
     move () {
+        let windResistance = 0.5
         this.x += this.vx 
-        this.y += this.vy 
+        this.y += this.vy
+        if (this.vy < 0) {
+            this.vy += windResistance
+            console.log(this.vy)
+            if (this.vy > 0) {
+                this.vy = 0
+            }
+        }
     }
 
     bound () {
-        // if (this.x < 0) {
-        //     this.x = 0
-        //     this.vx *= -1
-        // } else if (this.y < 0) {
-        //     this.y = 0
-        //     this.vy *= -1
-        // } else if (this.x > canvas.width - this.size) {
-        //     this.x = canvas.width - this.size
-        //     this.vx *= -1
-        // } else if (this.y > canvas.height - this.size) {
-        //     this.y = canvas.height - this.size
-        //     this.vy *= -1
-        //}
         if (this.y > 851) {
             this.x = canvas.width / 2 - this.size / 2
             this.y = 366
             this.vy = 0
-        } else if (this.y < -1200) {
+        } else if (this.y < -900) {
             setTimeout(() => {
                 this.x = canvas.width / 2 - this.size / 2
                 this.y = 366
@@ -81,9 +76,12 @@ class Bat {
             this.rotationSpeed = 0
         }
 
-        if (this.rotationSpeed !== 0 && ball.y > 750 && ball.y < 790 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = -30
-            camera.vy = ball.vy
+        if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 800 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.vy = - 42
+        } else if (this.rotationSpeed !== 0 && ball.y > 700 && ball.y < 850 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.vy = - 15*Math.random() - 16
+        } else if (this.rotationSpeed !== 0 && ball.y > 650 && ball.y < 870 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.vy = -10*Math.random() - 20
         }
     }
 
@@ -119,7 +117,8 @@ class Camera {
     }
     move () {
         if (ball.y < 377) {
-            this.y += this.vy
+            this.x += ball.vx 
+            this.y += ball.vy 
         }
     }
 }
@@ -153,10 +152,16 @@ addEventListener('click', e => {
 })
 
 setInterval(() => {
-    if (inningSituation === false && ball.vy === 0) {
-        ball.vy = 1 //15*Math.random()+5
+    if (inningSituation === false && ball.vy === 0 && homerun === false) {
+        ball.y = 366 
+        ball.x = canvas.width / 2 - ball.size / 2
+        ball.vy = 15*Math.random() + 5
+        camera.x = 0
+        camera.y = 0
     }
 },3*1000)
+
+
 
 function update() {
     ball.move()
