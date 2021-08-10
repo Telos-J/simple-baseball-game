@@ -88,12 +88,12 @@ class Bat {
             this.rotationSpeed = 0
         }
 
-        if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 800 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = - 42
+        if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.vy = - 6*Math.random() - 42
         } else if (this.rotationSpeed !== 0 && ball.y > 700 && ball.y < 850 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = - 15*Math.random() - 16
-        } else if (this.rotationSpeed !== 0 && ball.y > 650 && ball.y < 870 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = -10*Math.random() - 20
+            ball.vy = - 20*Math.random() - 20
+        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 860 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.vy = -10*Math.random() - 10
         }
     }
 
@@ -192,9 +192,16 @@ function render() {
 function loop() {
     update()
     render()
-    requestAnimationFrame(loop) // recursive function
+    requestAnimationFrame(loop) // recursive function - Anonymous
 }
 
 loop()
 
+// Comments: 
 
+// 'I love this simple baseball game' - Anonymous
+// 'I hate this simple baseball game' - Anonymous
+// 'This game made my life have purpose' - Anonymous
+// 'This game ruined my life' - Anonymous
+// 'djghfaelriuksjdhglaiuersdghfurdfuyaidghsfiluakjsd' - SoMeOnE (not a bot)
+// 'I am a bot' - A bot (not a bot)
