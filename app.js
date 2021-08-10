@@ -6,6 +6,7 @@ canvas.height = 900
 
 //true means you are pitching false is batting
 let inningSituation = false 
+let pitched = false
 
 class Ball {
     constructor() {
@@ -16,6 +17,7 @@ class Ball {
         this.vy = 0
         this.image = new Image()
         this.image.src = './baseball.png'
+        this.timeoutset = false
     }
 
     move () {
@@ -28,6 +30,16 @@ class Ball {
             if (this.vy > 0) {
                 this.vy = 0
             }
+        }
+
+        if (pitched === true && this.vy === 0 && this.timeoutset === false) {
+            setTimeout(() => {
+                this.x = canvas.width / 2 - this.size / 2
+                this.y = 366
+                camera.y = 0
+                pitched = false
+            }, 2*1000)
+            this.timeoutset = true
         }
     }
 
@@ -116,7 +128,7 @@ class Camera {
         this.vx = 0
     }
     move () {
-        if (ball.y < 377) {
+        if (ball.y < 366) {
             this.x += ball.vx 
             this.y += ball.vy 
         }
@@ -152,12 +164,10 @@ addEventListener('click', e => {
 })
 
 setInterval(() => {
-    if (inningSituation === false && ball.vy === 0 && homerun === false) {
-        ball.y = 366 
-        ball.x = canvas.width / 2 - ball.size / 2
+    if (inningSituation === false && ball.vy === 0 && pitched === false) {
+        pitched = true
         ball.vy = 15*Math.random() + 5
-        camera.x = 0
-        camera.y = 0
+        ball.timeoutset = false
     }
 },3*1000)
 
