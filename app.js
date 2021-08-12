@@ -39,6 +39,7 @@ class Ball {
             setTimeout(() => {
                 this.x = canvas.width / 2 - this.size / 2
                 this.y = 366
+                camera.x = 0
                 camera.y = 0
                 pitched = false
             }, 2*1000)
@@ -94,13 +95,16 @@ class Bat {
 
         if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 6*Math.random() + 42
-            ball.rotation = bat.rotation + Math.PI * 25 / 18 
-        } else if (this.rotationSpeed !== 0 && ball.y > 700 && ball.y < 850 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            bat.speed = 20*Math.random() + 15 
-            ball.rotation = bat.rotation + Math.PI * 25 / 18 
-        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 860 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            bat.speed = 10*Math.random() + 10
-            ball.rotation = bat.rotation + Math.PI * 25 / 18 
+            ball.rotation = this.rotation + Math.PI * 25 / 18 
+            console.log('This is a homerun')
+        } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.speed = 20*Math.random() + 15 
+            ball.rotation = this.rotation + Math.PI * 25 / 18 
+            console.log('This was a good hit')
+        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.speed = 10*Math.random() + 10
+            ball.rotation = thisx.rotation + Math.PI * 25 / 18
+            console.log('That was terrible') 
         } 
     }
 
@@ -175,6 +179,7 @@ setInterval(() => {
         pitched = true
         ball.speed = 15*Math.random() + 5
         ball.timeoutset = false
+        ball.rotation = Math.PI / 2
     }
 },3*1000)
 
