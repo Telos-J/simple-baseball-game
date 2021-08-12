@@ -103,7 +103,7 @@ class Bat {
             console.log('This was a good hit')
         } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 10*Math.random() + 10
-            ball.rotation = thisx.rotation + Math.PI * 25 / 18
+            ball.rotation = this.rotation + Math.PI * 25 / 18
             console.log('That was terrible') 
         } 
     }
@@ -156,7 +156,7 @@ addEventListener('keydown', e => {
         if (inningSituation === true) {
             ball.vy = 15
         } else {
-            bat.rotationSpeed = Math.PI /  5
+            bat.rotationSpeed = Math.PI /  10
         }
     } else if (e.code === 'ArrowUp') {s
         camera.y -= 10
