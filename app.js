@@ -7,6 +7,7 @@ canvas.height = 900
 //true means you are pitching false is batting
 let inningSituation = false 
 let pitched = false
+let pointsEarned = 0
 
 class Ball {
     constructor() {
@@ -44,6 +45,9 @@ class Ball {
                 pitched = false
             }, 2*1000)
             this.timeoutset = true
+            score += pointsEarned
+            console.log(pointsEarned)
+            
         }
     }
 
@@ -96,12 +100,15 @@ class Bat {
         if (this.rotationSpeed !== 0 && ball.y > 760 && ball.vy > 0 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 6*Math.random() + 42
             ball.rotation = Math.PI / (0.4*Math.random() + 1.3)
+            pointsEarned = 10
         } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.vy > 0 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 20*Math.random() + 15 
             ball.rotation = Math.PI / (0.4*Math.random() + 1.3)
+            pointsEarned = 5 
         } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.vy > 0 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 10*Math.random() + 10
             ball.rotation = Math.PI * (0.4*Math.random() + 1.3)
+            pointsEarned = 100
         } 
     }
 
@@ -143,10 +150,34 @@ class Camera {
     }
 }
 
+let score = 0
+
+class Scoreboard {
+    contructor(){
+        this.points = 0
+        this.strikes = 0
+        this.outs = 0
+    }
+
+    draw() {
+        context.fillStyle = '#9d373a'
+        context.fillRect(10, 10, 200, 300)
+        context.fillStyle = '#991e23'
+        context.fillRect(10, 160, 200, 150)
+        context.font = '50px serif'
+        context.fillStyle = 'White'
+        context.fillText('Score', 50, 70)
+        context.font = '50px serif'
+        context.fillStyle = 'White'
+        context.fillText(`${score}`, 90, 130)
+    }
+}
+
 const bat = new Bat()
 const ball = new Ball()
 const stadium = new Stadium()
 const camera = new Camera()
+const scoreboard = new Scoreboard()
 
 addEventListener('keydown', e => {
     if (e.code === 'Space') {
@@ -195,6 +226,7 @@ function render() {
     stadium.draw()
     ball.draw()
     bat.draw()
+    scoreboard.draw()
     if (homerun) context.drawImage(homeRunSign, 0, 0, 705, 564)
 } 
 
