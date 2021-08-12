@@ -23,7 +23,7 @@ class Ball {
     }
 
     move () {
-        let windResistance = 0.5
+        let windResistance = 0.1
         this.vx = this.speed * Math.cos(this.rotation)
         this.vy = this.speed * Math.sin(this.rotation)
         this.x += this.vx 
@@ -93,18 +93,15 @@ class Bat {
             this.rotationSpeed = 0
         }
 
-        if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+        if (this.rotationSpeed !== 0 && ball.y > 760 && ball.vy > 0 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 6*Math.random() + 42
-            ball.rotation = this.rotation + Math.PI * 25 / 18 
-            console.log('This is a homerun')
-        } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.rotation = Math.PI / (0.4*Math.random() + 1.3)
+        } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.vy > 0 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 20*Math.random() + 15 
-            ball.rotation = this.rotation + Math.PI * 25 / 18 
-            console.log('This was a good hit')
-        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            ball.rotation = Math.PI / (0.4*Math.random() + 1.3)
+        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.vy > 0 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 10*Math.random() + 10
-            ball.rotation = this.rotation + Math.PI * 25 / 18
-            console.log('That was terrible') 
+            ball.rotation = Math.PI * (0.4*Math.random() + 1.3)
         } 
     }
 
@@ -177,7 +174,7 @@ addEventListener('click', e => {
 setInterval(() => {
     if (inningSituation === false && ball.vy === 0 && pitched === false) {
         pitched = true
-        ball.speed = 15*Math.random() + 5
+        ball.speed = Math.random() + 5
         ball.timeoutset = false
         ball.rotation = Math.PI / 2
     }
