@@ -96,15 +96,15 @@ class Bat {
         if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 6*Math.random() + 42
             ball.rotation = this.rotation + Math.PI * 25 / 18 
-            console.log(this.rotation, ball.rotation)
-        } else if (this.rotationSpeed !== 0 && ball.y > 700 && ball.y < 850 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            console.log('This is a homerun')
+        } else if (this.rotationSpeed !== 0 && ball.y > 745 && ball.y < 810 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 20*Math.random() + 15 
             ball.rotation = this.rotation + Math.PI * 25 / 18 
-            console.log(this.rotation, ball.rotation)
-        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 860 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
+            console.log('This was a good hit')
+        } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 900 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
             ball.speed = 10*Math.random() + 10
-            ball.rotation = this.rotation + Math.PI * 25 / 18 
-            console.log(this.rotation, ball.rotation)
+            ball.rotation = thisx.rotation + Math.PI * 25 / 18
+            console.log('That was terrible') 
         } 
     }
 
@@ -156,7 +156,7 @@ addEventListener('keydown', e => {
         if (inningSituation === true) {
             ball.vy = 15
         } else {
-            bat.rotationSpeed = Math.PI /  10
+            bat.rotationSpeed = Math.PI /  5
         }
     } else if (e.code === 'ArrowUp') {s
         camera.y -= 10
@@ -178,8 +178,8 @@ setInterval(() => {
     if (inningSituation === false && ball.vy === 0 && pitched === false) {
         pitched = true
         ball.speed = 15*Math.random() + 5
-        ball.rotation = Math.PI / 2
         ball.timeoutset = false
+        ball.rotation = Math.PI / 2
     }
 },3*1000)
 
