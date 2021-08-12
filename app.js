@@ -13,8 +13,10 @@ class Ball {
         this.size = 20
         this.x = canvas.width / 2 - this.size / 2
         this.y = 366
+        this.speed = 0
         this.vx = 0
         this.vy = 0
+        this.rotation = Math.PI / 2
         this.image = new Image()
         this.image.src = './baseball.png'
         this.timeoutset = false
@@ -22,17 +24,18 @@ class Ball {
 
     move () {
         let windResistance = 0.5
+        this.vx = this.speed * Math.cos(this.rotation)
+        this.vy = this.speed * Math.sin(this.rotation)
         this.x += this.vx 
         this.y += this.vy
         if (this.vy < 0) {
-            this.vy += windResistance
-            console.log(this.vy)
-            if (this.vy > 0) {
-                this.vy = 0
+            this.speed -= windResistance
+            if (this.speed < 0) {
+                this.speed = 0
             }
         }
 
-        if (pitched === true && this.vy === 0 && this.timeoutset === false) {
+        if (pitched === true && this.speed === 0 && this.timeoutset === false) {
             setTimeout(() => {
                 this.x = canvas.width / 2 - this.size / 2
                 this.y = 366
@@ -47,7 +50,7 @@ class Ball {
         if (this.y > 851) {
             this.x = canvas.width / 2 - this.size / 2
             this.y = 366
-            this.vy = 0
+            this.speed = 0
         } else if (this.y < -900) {
             setTimeout(() => {
                 this.x = canvas.width / 2 - this.size / 2
@@ -55,7 +58,7 @@ class Ball {
                 camera.y = 0
                 homerun = false
             }, 2*1000)
-            this.vy = 0
+            this.speed = 0
             camera.vy = 0
             homerun = true
         }
@@ -81,6 +84,7 @@ class Bat {
         this.rotationSpeed = 0
     }
 
+
     swing () {
         this.rotation -= this.rotationSpeed
         if (this.rotation < Math.PI - Math.PI * 2) {
@@ -89,12 +93,15 @@ class Bat {
         }
 
         if (this.rotationSpeed !== 0 && ball.y > 760 && ball.y < 780 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = - 6*Math.random() - 42
+            ball.speed = 6*Math.random() + 42
+            ball.rotation = bat.rotation + Math.PI * 25 / 18 
         } else if (this.rotationSpeed !== 0 && ball.y > 700 && ball.y < 850 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = - 20*Math.random() - 20
+            bat.speed = 20*Math.random() + 15 
+            ball.rotation = bat.rotation + Math.PI * 25 / 18 
         } else if (this.rotationSpeed !== 0 && ball.y > 670 && ball.y < 860 && this.rotation > Math.PI - Math.PI && this.rotation < Math.PI - Math.PI / 1.5) {
-            ball.vy = -10*Math.random() - 10
-        }
+            bat.speed = 10*Math.random() + 10
+            ball.rotation = bat.rotation + Math.PI * 25 / 18 
+        } 
     }
 
     draw () {
@@ -119,7 +126,7 @@ class Stadium {
         context.drawImage(this.image, this.x - camera.x, this.y - camera.y, this.size, this.size / 1.14)    
     }
 }
-
+            
 class Camera {
     constructor() {
         this.x = 0
@@ -147,7 +154,7 @@ addEventListener('keydown', e => {
         } else {
             bat.rotationSpeed = Math.PI /  5
         }
-    } else if (e.code === 'ArrowUp') {
+    } else if (e.code === 'ArrowUp') {s
         camera.y -= 10
     } else if (e.code === 'ArrowDown') {
         camera.y += 10
@@ -166,7 +173,7 @@ addEventListener('click', e => {
 setInterval(() => {
     if (inningSituation === false && ball.vy === 0 && pitched === false) {
         pitched = true
-        ball.vy = 15*Math.random() + 5
+        ball.speed = 15*Math.random() + 5
         ball.timeoutset = false
     }
 },3*1000)
@@ -181,7 +188,7 @@ function update() {
 }
 
 function render() {
-    context.fillStyle = 'white'
+    context.fillStyle = '#ffc08b'
     context.fillRect(0, 0, canvas.width, canvas.height)
     stadium.draw()
     ball.draw()
@@ -197,11 +204,3 @@ function loop() {
 
 loop()
 
-// Comments: 
-
-// 'I love this simple baseball game' - Anonymous
-// 'I hate this simple baseball game' - Anonymous
-// 'This game made my life have purpose' - Anonymous
-// 'This game ruined my life' - Anonymous
-// 'djghfaelriuksjdhglaiuersdghfurdfuyaidghsfiluakjsd' - SoMeOnE (not a bot)
-// 'I am a bot' - A bot (not a bot)
