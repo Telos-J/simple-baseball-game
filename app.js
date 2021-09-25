@@ -126,12 +126,10 @@ class Stadium {
     constructor() {
         this.size = 2300
         this.x = canvas.width / 2 - this.size / 2
-        this.y = canvas.height / 2 - this.size / 2  - 180
-        this.image = new Image()
-        this.image.src = './stadium.png'
-    }
-    draw () {
-        context.drawImage(this.image, this.x - camera.x, this.y - camera.y, this.size, this.size / 1.14)    
+        this.y = canvas.height / 2 - this.size / 2 - 180
+        this.anchor.set(0.5)
+        this.texture = loader.resources.stadium.texture
+        app.stage.addChild(this)
     }
 }
             
@@ -142,12 +140,7 @@ class Camera {
         this.vy = 0
         this.vx = 0
     }
-    move () {
-        if (ball.y < 366) {
-            this.x += ball.vx 
-            this.y += ball.vy 
-        }
-    }
+ 
 }
 
 let score = 0
